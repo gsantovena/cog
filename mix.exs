@@ -66,6 +66,7 @@ defmodule Cog.Mixfile do
       {:greenbar, github: "operable/greenbar"},
       {:probe, github: "operable/probe"},
       {:spanner, github: "operable/spanner"},
+      {:piper, github: "operable/piper", branch: "kevsmith/stacked-parsers", override: true},
 
       # MQTT-related
       ########################################################################

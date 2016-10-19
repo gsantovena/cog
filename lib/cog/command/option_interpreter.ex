@@ -72,6 +72,9 @@ defmodule Cog.Command.OptionInterpreter do
   end
   def store_arg_value(%Ast.Variable{value: value}, args),
     do: [value|args]
+  def store_arg_value(%Ast.InterpolatedString{bound: true}=interp, args) do
+    [String.Chars.to_string(interp)|args]
+  end
 
   defp set_defaults(%Ast.Invocation{}=command, options) do
     defs = command.meta.options

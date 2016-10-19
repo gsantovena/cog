@@ -20,6 +20,7 @@ defmodule Cog.Command.Pipeline.Executor do
   alias Piper.Command.Parser
   alias Piper.Command.ParserOptions
 
+
   # Last bundle configuration version that accepts the old
   # Mustache-based templates; later versions are processed
   # differently.
