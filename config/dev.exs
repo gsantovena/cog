@@ -1,6 +1,8 @@
 use Mix.Config
 import Cog.Config.Helpers
 
+config :cog, [mode: :dev]
+
 config :logger, :console,
   level: :debug
 

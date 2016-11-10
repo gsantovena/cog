@@ -109,6 +109,11 @@ defmodule Cog.Mixfile do
       # version in Hex. Thus, we need to declare it manually :(
       {:websocket_client, github: "jeremyong/websocket_client"},
 
+      # Config file management and release generation
+      ########################################################################
+      {:conform, github: "operable/conform", branch: "kevsmith/env-vars"},
+      {:distillery, github: "bitwalker/distillery", override: true},
+
       # Test and Development
       ########################################################################
       {:credo, "~> 0.4", only: [:dev, :test]},

@@ -29,11 +29,11 @@ defmodule Cog.BusDriver do
 
   def init(_) do
     case configure_message_bus() do
-      {:ok, [app_name]} ->
-        case Application.ensure_all_started(app_name) do
+      :ok ->
+        case Application.ensure_all_started(:emqttd) do
           {:ok, _} ->
             :erlang.process_flag(:trap_exit, true)
-            {:ok, app_name}
+            {:ok, :emqttd}
           error ->
             {:stop, error}
         end
@@ -51,19 +51,14 @@ defmodule Cog.BusDriver do
   defp configure_message_bus() do
     case prepare_bindings() do
       {:ok, common_bindings, cert_bindings} ->
-        case load_private_config("common_mqtt") do
-          {:ok, _} ->
-            if length(cert_bindings) == 2 do
-              # SSL enabled
-              Logger.info("Message bus configured for SSL")
-              load_private_config("ssl_mqtt", [{:mqtt_type, :mqtts}|common_bindings] ++ cert_bindings)
-            else
-              # SSL disabled
-              Logger.info("Message bus configured for plain TCP")
-              load_private_config("plain_mqtt", [{:mqtt_type, :mqtt}|common_bindings])
-            end
-          error ->
-            error
+        if length(cert_bindings) == 2 do
+          # SSL enabled
+          Logger.info("Message bus configured for SSL")
+          load_private_config("ssl_mqtt", [{:mqtt_type, :mqtts}|common_bindings] ++ cert_bindings)
+        else
+          # SSL disabled
+          Logger.info("Message bus configured for plain TCP")
+          load_private_config("plain_mqtt", [{:mqtt_type, :mqtt}|common_bindings])
         end
       error ->
         error
@@ -99,17 +94,13 @@ defmodule Cog.BusDriver do
   defp convert_string(nil), do: nil
   defp convert_string(value), do: String.to_charlist(value)
 
-  defp load_private_config(name, bindings \\ []) do
+  defp load_private_config(name, bindings) do
     config = File.read!(Path.join([:code.priv_dir(:cog), "config", name <> ".exs"]))
     case Code.eval_string(config, bindings) do
-      {:ok, results} ->
-        [{_, agent}|_] = Enum.reverse(results)
-        config = Mix.Config.Agent.get(agent)
-        Mix.Config.Agent.stop(agent)
-        Mix.Config.validate!(config)
-        {:ok, Mix.Config.persist(config)}
-      error ->
+      {:error, _} = error ->
         error
+      {results, _} ->
+        Application.put_env(:emqttd, :listeners, results, [persistent: true])
     end
   end
 

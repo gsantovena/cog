@@ -46,6 +46,9 @@ defmodule Cog.Config do
       259200
 
   """
+  def convert(from, into) when is_integer(from) do
+    convert({from, :sec}, into)
+  end
   def convert(from, into) do
     from
     |> convert_to_seconds

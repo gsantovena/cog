@@ -1,6 +1,3 @@
-use Mix.Config
-
-config :emqttd, :listeners,
   [{mqtt_type, mqtt_port,
     [acceptors: 8,
      max_clients: 64,

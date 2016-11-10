@@ -1,3 +1,5 @@
+use Mix.Config
+
 config :emqttd, :access,
   auth: [cog_internal: []],
   acl: [cog_internal: []]

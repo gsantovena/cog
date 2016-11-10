@@ -12,42 +12,44 @@ import Cog.Config.Helpers
 # COG_TELEMETRY environment variable to "false".
 # ========================================================================
 
-config :cog, :telemetry, ensure_boolean(System.get_env("COG_TELEMETRY") || true)
+# config :cog, [mode: :prod]
 
-# ========================================================================
-# Set this to :unenforcing to globally disable all access rules.
-# NOTE: This is a global setting.
-# ========================================================================
+# config :cog, :telemetry, ensure_boolean(System.get_env("COG_TELEMETRY") || true)
 
-if System.get_env("DISABLE_RULE_ENFORCEMENT") do
-  config :cog, :access_rules, :unenforcing
-else
-  config :cog, :access_rules, :enforcing
-end
+# # ========================================================================
+# # Set this to :unenforcing to globally disable all access rules.
+# # NOTE: This is a global setting.
+# # ========================================================================
 
-# ========================================================================
-# Embedded Command Bundle Version (for built-in commands)
-# NOTE: Do not change this value unless you know what you're doing.
-# ========================================================================
+# if System.get_env("DISABLE_RULE_ENFORCEMENT") do
+#   config :cog, :access_rules, :unenforcing
+# else
+#   config :cog, :access_rules, :enforcing
+# end
 
-config :cog, :embedded_bundle_version, "0.15.0"
+# # ========================================================================
+# # Embedded Command Bundle Version (for built-in commands)
+# # NOTE: Do not change this value unless you know what you're doing.
+# # ========================================================================
 
-# ========================================================================
-# Chat Adapters
-# ========================================================================
+# config :cog, :embedded_bundle_version, "0.15.0"
 
-config :cog, Cog.Chat.Http.Provider,
-  foo: "blah"
+# # ========================================================================
+# # Chat Adapters
+# # ========================================================================
 
-config :cog, Cog.Chat.Adapter,
-  providers: provider_list(),
-  chat: enabled_chat_provider()
+# config :cog, Cog.Chat.Http.Provider,
+#   foo: "blah"
 
-config :cog, :enable_spoken_commands, ensure_boolean(System.get_env("ENABLE_SPOKEN_COMMANDS")) || true
+# config :cog, Cog.Chat.Adapter,
+#   providers: provider_list(),
+#   chat: enabled_chat_provider()
 
-config :cog, :message_bus,
-  host: System.get_env("COG_MQTT_HOST") || "127.0.0.1",
-  port: ensure_integer(System.get_env("COG_MQTT_PORT")) || 1883
+# config :cog, :enable_spoken_commands, ensure_boolean(System.get_env("ENABLE_SPOKEN_COMMANDS")) || true
+
+# config :cog, :message_bus,
+#   host: System.get_env("COG_MQTT_HOST") || "127.0.0.1",
+#   port: ensure_integer(System.get_env("COG_MQTT_PORT")) || 1883
 
 # Uncomment the next three lines and edit ssl_cert and ssl_key
 # to point to your SSL certificate and key files.
@@ -62,7 +64,7 @@ config :httpotion, :default_timeout, 30000
 # ========================================================================
 # Commands, Bundles, and Services
 
-config :cog, :command_prefix, System.get_env("COG_COMMAND_PREFIX") || "!"
+# config :cog, :command_prefix, System.get_env("COG_COMMAND_PREFIX") || "!"
 
 config :cog, Cog.Bundle.BundleSup,
   bundle_root: Path.join([File.cwd!, "bundles"])
@@ -211,7 +213,9 @@ config :cog, Cog.Mailer,
 config :cog, :email_from, System.get_env("COG_EMAIL_FROM")
 config :cog, :password_reset_base_url, System.get_env("COG_PASSWORD_RESET_BASE_URL")
 
-import_config "slack.exs"
+import_config "mqtt_common.exs"
+
+#import_config "slack.exs"
 import_config "hipchat.exs"
 
 import_config "#{Mix.env}.exs"
