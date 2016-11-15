@@ -2,8 +2,8 @@ defmodule Cog.TemplateCase do
   use ExUnit.CaseTemplate, async: true
 
   alias Cog.Template.New
-  alias Cog.Chat.Slack.TemplateProcessor, as: SlackProcessor
-  alias Cog.Chat.HipChat.TemplateProcessor, as: HipChatProcessor
+  alias TemplateProcessors.SlackProcessor
+  alias TemplateProcessors.HipChatProcessor
 
   using do
     quote do

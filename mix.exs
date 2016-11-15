@@ -66,6 +66,7 @@ defmodule Cog.Mixfile do
       {:greenbar, github: "operable/greenbar"},
       {:probe, github: "operable/probe"},
       {:spanner, github: "operable/spanner"},
+      {:template_processors, github: "operable/template_processors"},
 
       # MQTT-related
       ########################################################################

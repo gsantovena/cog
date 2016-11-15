@@ -11,7 +11,7 @@ defmodule Cog.Chat.HipChat.Templates.Common.ErrorTest do
              "execution_failure" => false}
 
     directives = directives_for_template(:common, "error", data)
-    rendered = Cog.Chat.HipChat.TemplateProcessor.render(directives)
+    rendered = TemplateProcessors.HipChatProcessor.render(directives)
     assert "<strong>Command Error</strong><br/><br/>" <>
       "<strong>Started:</strong> some time in the past<br/>" <>
       "<strong>Pipeline ID:</strong> deadbeef<br/>" <>
@@ -32,7 +32,7 @@ defmodule Cog.Chat.HipChat.Templates.Common.ErrorTest do
              "planning_failure" => false,
              "execution_failure" => "I can't execute this!"}
     directives = directives_for_template(:common, "error", data)
-    rendered = Cog.Chat.HipChat.TemplateProcessor.render(directives)
+    rendered = TemplateProcessors.HipChatProcessor.render(directives)
     assert "<strong>Command Error</strong><br/><br/>" <>
       "<strong>Started:</strong> some time in the past<br/>" <>
       "<strong>Pipeline ID:</strong> deadbeef<br/>" <>

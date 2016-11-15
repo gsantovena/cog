@@ -1,7 +1,7 @@
 defmodule Cog.Chat.HipChat.TemplateProcessorTest do
   use ExUnit.Case
 
-  alias Cog.Chat.HipChat.TemplateProcessor
+  alias TemplateProcessors.HipChatProcessor
 
   test "processes a list of directives" do
     directives = [
@@ -65,7 +65,7 @@ defmodule Cog.Chat.HipChat.TemplateProcessorTest do
       %{"name" => "text",
         "text" => "\nHow do you like them apples?"}]
 
-    rendered = TemplateProcessor.render(directives)
+    rendered = HipChatProcessor.render(directives)
     expected = """
     This is a rendering test. First, let's try italics: <i>I'm italic text!</i>
     That was fun; now let's do bold: <strong>BEHOLD! BOLD!</strong>
@@ -91,7 +91,7 @@ defmodule Cog.Chat.HipChat.TemplateProcessorTest do
       %{"name" => "wat", "text" => "whatever"}
     ]
 
-    rendered = TemplateProcessor.render(directives)
+    rendered = HipChatProcessor.render(directives)
     assert "Important message: whatever" == rendered
   end
 
@@ -101,7 +101,7 @@ defmodule Cog.Chat.HipChat.TemplateProcessorTest do
       %{"name" => "wat", "something" => "whatever", "meaning_of_life" => 42}
     ]
 
-    rendered = TemplateProcessor.render(directives)
+    rendered = HipChatProcessor.render(directives)
     expected = "Important message: <br/>Unrecognized directive: wat<br/>"
 
     assert expected == rendered

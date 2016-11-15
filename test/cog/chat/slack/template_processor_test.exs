@@ -1,7 +1,7 @@
 defmodule Cog.Chat.Slack.TemplateProcessorTest do
   use ExUnit.Case
 
-  alias Cog.Chat.Slack.TemplateProcessor
+  alias TemplateProcessors.SlackProcessor
 
   test "processes a list of directives" do
     directives = [
@@ -65,7 +65,7 @@ defmodule Cog.Chat.Slack.TemplateProcessorTest do
       %{"name" => "text",
         "text" => "\nHow do you like them apples?"}]
 
-    {rendered, []} = TemplateProcessor.render(directives)
+    {rendered, []} = SlackProcessor.render(directives)
     expected = """
     This is a rendering test. First, let's try italics: _I'm italic text!_
     That was fun; now let's do bold: *BEHOLD! BOLD!*
@@ -93,7 +93,7 @@ defmodule Cog.Chat.Slack.TemplateProcessorTest do
       %{"name" => "wat", "text" => "whatever"}
     ]
 
-    {rendered, _} = TemplateProcessor.render(directives)
+    {rendered, _} = SlackProcessor.render(directives)
     assert "Important message: whatever" == rendered
   end
 
@@ -103,7 +103,7 @@ defmodule Cog.Chat.Slack.TemplateProcessorTest do
       %{"name" => "wat", "something" => "whatever", "meaning_of_life" => 42}
     ]
 
-    {rendered, _} = TemplateProcessor.render(directives)
+    {rendered, _} = SlackProcessor.render(directives)
     expected = "Important message: \nUnrecognized directive: wat\n"
 
     assert expected == rendered

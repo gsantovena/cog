@@ -11,7 +11,7 @@ defmodule Cog.Chat.Slack.Templates.Common.ErrorTest do
              "execution_failure" => false}
 
     directives = directives_for_template(:common, "error", data)
-    {"", [rendered]} = Cog.Chat.Slack.TemplateProcessor.render(directives)
+    {"", [rendered]} = TemplateProcessors.SlackProcessor.render(directives)
     assert """
     The pipeline failed planning the invocation:
 
@@ -33,7 +33,7 @@ defmodule Cog.Chat.Slack.Templates.Common.ErrorTest do
              "planning_failure" => false,
              "execution_failure" => "I can't execute this!"}
     directives = directives_for_template(:common, "error", data)
-    {"", [rendered]} = Cog.Chat.Slack.TemplateProcessor.render(directives)
+    {"", [rendered]} = TemplateProcessors.SlackProcessor.render(directives)
     assert """
     The pipeline failed executing the command:
 

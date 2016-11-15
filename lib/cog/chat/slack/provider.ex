@@ -9,6 +9,8 @@ defmodule Cog.Chat.Slack.Provider do
   alias Carrier.Messaging.GenMqtt
   alias Cog.Chat.Slack.Connector
 
+  alias TemplateProcessors.SlackProcessor
+
   defstruct [:token, :incoming, :connector, :mbus]
 
   def display_name, do: "Slack"
@@ -117,7 +119,7 @@ defmodule Cog.Chat.Slack.Provider do
   end
   # New template processing
   def handle_call({:send_message, target, message}, _from, %__MODULE__{connector: connector, token: token}=state) do
-    {text, attachments} = Cog.Chat.Slack.TemplateProcessor.render(message)
+    {text, attachments} = SlackProcessor.render(message)
     result = Connector.call(connector, token, :send_message, %{target: target, message: text, attachments: attachments})
     case result["ok"] do
       true ->

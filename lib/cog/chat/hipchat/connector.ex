@@ -7,12 +7,11 @@ defmodule Cog.Chat.HipChat.Connector do
   alias Cog.Chat.HipChat.Users
   alias Cog.Chat.HipChat.Provider
   alias Cog.Chat.HipChat.Rooms
-  alias Cog.Chat.HipChat.TemplateProcessor
   alias Cog.Chat.HipChat.Util
   alias Cog.Repository.ChatProviders
   alias Romeo.Connection
   alias Romeo.Stanza
-
+  alias TemplateProcessors.HipChatProcessor
 
   @provider_name "hipchat"
   @xmpp_timeout 5000
@@ -129,7 +128,7 @@ defmodule Cog.Chat.HipChat.Connector do
     {:reply, {:ok, Rooms.all(state.rooms)}, state}
   end
   def handle_call({:send_message, target, message}, _from, state) do
-    send_output(state, target, TemplateProcessor.render(message))
+    send_output(state, target, HipChatProcessor.render(message))
   end
 
   # Should only happen when we connect
