@@ -1,8 +1,15 @@
 ~each var=$results~
 
-~attachment color="gray"~
-**Version:** ~$item.version~
-**Enabled:** ~$item.enabled~
+~if cond=$item.enabled == true~
+~attachment color="green"~
+~$item.version~ (enabled)
+~end~
+~end~
+
+~if cond=$item.enabled == false~
+~attachment color="red"~
+~$item.version~ (disabled)
+~end~
 ~end~
 
 ~end~
